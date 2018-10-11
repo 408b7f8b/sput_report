@@ -51,20 +51,21 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
 
-//Nötig?
 void getDateTime(char* buffer) {
-    int millisec = 0;
-    struct tm* tm_info;
+
     struct timeval tv;
     gettimeofday(&tv, NULL);
 
+    struct tm* tm_info;
     tm_info = localtime(&tv.tv_sec);
-    strftime(buffer, 26, "%Y-%m-%dT%H:%M:%S", tm_info);
-    sprintf(buffer,"%sZ", buffer, millisec); //Endzeichen Z korrekt?
+
+    strftime(buffer, 32, "%Y-%m-%dT%H:%M:%S %Z", tm_info);
+
 }
 
     /* ===================================================================
@@ -105,6 +106,7 @@ void getDateTime(char* buffer) {
     struct sput_test
     {
         const char   *name;
+        const char* classname;
         unsigned long nr;
 
         struct sput_time time;
@@ -304,7 +306,7 @@ void sput_xml_schreiben_f(char* filename) {
 
             rc = xmlTextWriterStartElement(writer, BAD_CAST "testcase");
             rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "name", BAD_CAST test->name);
-            rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "classname", BAD_CAST "MSB-C-Client");
+            rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "classname", BAD_CAST test->classname);
             sprintf(buffer, "%.6f", difftime(test->time.end, test->time.start));
             rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "time", BAD_CAST buffer);
 
@@ -475,12 +477,13 @@ void sput_xml_schreiben_f(char* filename) {
     } while (0)
 
 
-#define sput_run_test(_func)                                               \
+#define sput_run_test(_func, _classname)                                   \
     do {                                                                   \
         _sput_die_unless_initialized();                                    \
         _sput_die_unless_suite_set();                                      \
         memset(&__sput.test, 0, sizeof(struct sput_test));                 \
         __sput.test.name = #_func;                                         \
+        __sput.test.classname = _classname;                               \
         __sput.test.time.start = time(NULL);                               \
         _func();                                                           \
         __sput.test.time.end = time(NULL);                                 \
