@@ -4,18 +4,4 @@ LIZENZ gleich
 Header-only
 alles andere als perfekt
 
-Bedienung
-main:
-${name_test}: char*, gibt den Namen des Tests an
-${testfunktion}: static void, eine Testfunktion
- ${name_reportdatei}: char*, gibt Pfad und Namen der auszugebenden Reportdatei
-
-sput_start_testing();
-sput_enter_suite(${name_test});
-sput_run_test(${testfunktion});
-sput_finish_testing();
-sput_xml_schreiben_f(${name_reportdatei});
-return sput_get_return_value();
-
-Testfunktion:
-Gleich zu Sput v1.4.0 (sput_fail_unless usw.)
+Bedienung siehe Beispiel main.c
