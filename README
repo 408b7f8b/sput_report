@@ -1,3 +1,5 @@
+Original see: https://www.use-strict.de/sput-unit-testing
+
 Sput v1.4.0 with a simple JUnit-like XML output function
 needs libxml2
 License is the same as original
