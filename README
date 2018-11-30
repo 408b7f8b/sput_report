@@ -1,0 +1,9 @@
+Sput v1.4.0 with a simple JUnit-like XML output function
+needs libxml2
+License is the same as original
+Header-only
+everything but perfect - contributions welcome
+
+Usage see example main.c
+
+D. Breunig 2018

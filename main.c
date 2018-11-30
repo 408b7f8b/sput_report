@@ -1,6 +1,5 @@
-//
-// Created by root on 11.10.18.
-//
+//Sput 1.4 Report example
+//30.11.2018 David Breunig
 
 #include "sput.h"
 
@@ -39,7 +38,7 @@ int main(){
 	sput_run_test(testfunktion2, "testklasse2");
 	sput_finish_testing();
 
-	sput_xml_schreiben_f("report1.xml");
+	sput_write_xml_f("report1.xml");
 
 	return sput_get_return_value();
 

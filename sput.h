@@ -57,7 +57,6 @@ extern "C" {
 #include <libxml/xmlwriter.h>
 
 void getDateTime(char* buffer) {
-
     struct timeval tv;
     gettimeofday(&tv, NULL);
 
@@ -65,7 +64,6 @@ void getDateTime(char* buffer) {
     tm_info = localtime(&tv.tv_sec);
 
     strftime(buffer, 32, "%Y-%m-%dT%H:%M:%S %Z", tm_info);
-
 }
 
     /* ===================================================================
@@ -269,7 +267,7 @@ void getDateTime(char* buffer) {
         }\
     } while (0)
 
-void sput_xml_schreiben_f(char* filename) {
+void sput_write_xml_f(char* filename) {
     char buffer[255];
     int rc;
     xmlTextWriterPtr writer;
@@ -499,6 +497,3 @@ void sput_xml_schreiben_f(char* filename) {
 
 
 #endif /* HAVE_SPUT_H */
-
-
-/* vim: set ft=c sts=4 sw=4 ts=4 ai et: */
