@@ -5,4 +5,4 @@ set(CMAKE_C_STANDARD 90)
 
 link_libraries(xml2)
 
-add_executable(sput_report_example main.c main.c)
+add_executable(sput_report_example example.c)

@@ -222,7 +222,7 @@ void getDateTime(char* buffer) {
      * ================================================================== */
 
 
-#define sput_check_sichern()\
+#define sput_save_check()\
     do {\
         if(__sput.test.checksZgr == NULL){\
             __sput.test.checksZgr = (struct sput_check*)malloc(sizeof(struct sput_check));\
@@ -236,7 +236,7 @@ void getDateTime(char* buffer) {
         }\
     } while (0)
 
-#define sput_test_sichern()\
+#define sput_save_test()\
     do {\
         if(__sput.test.name != NULL){\
             if(__sput.suite.testsZgr == NULL){\
@@ -253,7 +253,7 @@ void getDateTime(char* buffer) {
         }\
     } while (0)
 
-#define sput_suite_sichern()\
+#define sput_save_suite()\
     do {\
         if(__sput.overall.suitesZgr == NULL){\
             __sput.overall.suitesZgr = (struct sput_suite*)malloc(sizeof(struct sput_suite));\
@@ -293,7 +293,7 @@ void sput_write_xml_f(char* filename) {
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "time", BAD_CAST buffer);
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "timestamp", BAD_CAST suite->timestamp);
 
-        //der Vollständigkeit halber, weil ich nicht weiß, ob diese Informationen - die ich nicht habe - vorhanden sein müssen
+        //next two are "why not" - I don't have those informations, but I guess they're necessary for the format?
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "errors", BAD_CAST "0");
         rc = xmlTextWriterWriteAttribute(writer, BAD_CAST "skipped", BAD_CAST "0");
         int max = suite->tests;
@@ -367,7 +367,7 @@ void sput_write_xml_f(char* filename) {
         __sput.overall.checks += __sput.suite.checks;                      \
         __sput.overall.ok     += __sput.suite.ok;                          \
         __sput.overall.nok    += __sput.suite.nok;                         \
-        sput_suite_sichern();                                              \
+        sput_save_suite();                                              \
         memset(&__sput.suite, 0, sizeof(__sput.suite));                    \
     } while (0)
 
@@ -438,7 +438,7 @@ void sput_write_xml_f(char* filename) {
         __sput.test.nr++;                                                  \
         __sput.suite.checks++;                                             \
         __sput.test.checks++;                                              \
-        sput_check_sichern();                                              \
+        sput_save_check();                                              \
         if ((_cond))                                                       \
         {                                                                  \
             _sput_check_failed();                                          \
@@ -463,7 +463,7 @@ void sput_write_xml_f(char* filename) {
         __sput.test.nr++;                                                  \
         __sput.suite.checks++;                                             \
         __sput.test.checks++;                                              \
-        sput_check_sichern();                                              \
+        sput_save_check();                                              \
         if (! (_cond))                                                     \
         {                                                                  \
             _sput_check_failed();                                          \
@@ -488,7 +488,7 @@ void sput_write_xml_f(char* filename) {
         __sput.suite.tests++;                                              \
         if(__sput.test.failure)                                            \
             __sput.suite.test_failures++;                                  \
-        sput_test_sichern();                                               \
+        sput_save_test();                                               \
     } while (0)
 
 #ifdef __cplusplus
